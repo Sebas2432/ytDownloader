@@ -33,6 +33,10 @@ impl Link{
         match message {
             Message::DownloadPressed => {
                 println!("Download button pressed for link: {}", self.yLink);
+                if self.yLink.is_empty() {
+                    println!("No link provided.");
+                    return;
+                }
                 download_file(&self.yLink, "output.mp4").expect("Failed to download file");
             }
             Message::LinkChanged(link) => {
