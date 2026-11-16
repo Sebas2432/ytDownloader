@@ -11,7 +11,7 @@ enum Message {
 
 #[derive(Debug, Default)]
 struct Link {
-    yLink: String
+    y_link: String
 }
 
 fn download_file(url: &str, destination: &str) -> Result<(), Box<dyn std::error::Error>> {
@@ -22,30 +22,30 @@ fn download_file(url: &str, destination: &str) -> Result<(), Box<dyn std::error:
 }
 
 impl Link{
-    fn view(&self) -> Column<Message> {
+    fn view(&self) -> Column<'_, Message> {
         column![
             text("Enter YouTube link:"),
-            text_input("Enter YouTube link...", &self.yLink).on_input(Message::LinkChanged),
+            text_input("Enter YouTube link...", &self.y_link).on_input(Message::LinkChanged),
             button("Download").on_press(Message::DownloadPressed)
         ]
     }
     fn update(&mut self, message: Message) {
         match message {
             Message::DownloadPressed => {
-                println!("Download button pressed for link: {}", self.yLink);
-                if self.yLink.is_empty() {
+                println!("Download button pressed for link: {}", self.y_link);
+                if self.y_link.is_empty() {
                     println!("No link provided.");
                     return;
                 }
-                download_file(&self.yLink, "output.mp4").expect("Failed to download file");
+                download_file(&self.y_link, "output.mp4").expect("Failed to download file");
             }
             Message::LinkChanged(link) => {
-                self.yLink = link;
+                self.y_link = link;
             }
         }
     }
 }
 
 fn main() {
-    iced::run(Link::update, Link::view);
+    let _ = iced::run(Link::update, Link::view);
 }
